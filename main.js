@@ -11,7 +11,7 @@ function getComputerChoice() {
 }
 
 // Value based: Computer === -1, Draw === 0, Player === 1
-function checkWinner(playerSelection, computerSelection) {
+function playRound(playerSelection, computerSelection) {
   // Handling case-insensitive
   playerSelection = playerSelection.toLowerCase();
   computerSelection = computerSelection.toLowerCase();
@@ -32,18 +32,39 @@ function checkWinner(playerSelection, computerSelection) {
   return 1;
 }
 
-function playRound(playerSelection, computerSelection) {
-  const winner = checkWinner(playerSelection, computerSelection);
-  if (winner === 0) {
-    return 'Its draw';
+function game() {
+  let playerScores = 0;
+  let computerScores = 0;
+
+  for (let i = 0; i < 5; i++) {
+    const playerSelection = prompt("Enter your choice: 'rock', 'paper', or 'scissors'");
+    const computerSelection = getComputerChoice();
+
+    const winner = playRound(playerSelection, computerSelection);
+
+    console.log(`Round ${i + 1}`);
+    console.log(`Player: ${playerSelection} <==> ${computerSelection} :Computer`)
+  
+    if (winner === 1) {
+      playerScores++;
+      console.log(`${playerSelection.toUpperCase()} beats ${computerSelection.toUpperCase()}`);
+    } else if (winner === -1) {
+      computerScores++;
+      console.log(`${computerSelection.toUpperCase()} beats ${playerSelection.toUpperCase()}`);
+    } else {
+      console.log('Its a draw');
+    }
+
+    console.log("====================================================================");
   }
 
-  return winner === 1
-    ? `You Won! ${playerSelection.toUpperCase()} beats ${computerSelection.toUpperCase()}`
-    : `You Lose! ${computerSelection.toUpperCase()} beats ${playerSelection.toUpperCase()}`;
+  if (playerScores > computerScores) {
+    console.log('Player is the winner!');
+  } else if (playerScores < computerScores) {
+    console.log('Computer is the winner!');
+  } else {
+    console.log('Its a draw');
+  }
 }
 
-const playerSelection = 'rock';
-const computerSelection = getComputerChoice();
-console.log(`Player: ${playerSelection} <==> ${computerSelection} :Computer`)
-console.log(playRound(playerSelection, computerSelection));
+game();
