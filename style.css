@@ -1,0 +1,61 @@
+.winner-declare {
+  display: none;
+  flex-direction: column;
+  min-height: 80vh;
+  justify-content: center;
+  align-items: center;
+  font-size: 60px;
+  font-weight: bold;
+}
+
+.declare-text {
+  margin-top: -40px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.scoreboard {
+  text-align: center;
+  display: flex;
+  width: 300px;
+}
+
+.vertical-line {
+  border: 1px solid black;
+  flex: 0;
+}
+
+.player,
+.computer {
+  flex: 1;
+}
+
+.selections {
+  display: flex;
+  align-items: center;
+}
+
+.selection:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+  transition: all 300ms;
+}
+
+.round-winner {
+  margin-top: 30px;
+}
+
+.game-count {
+  font-size: 18px;
+}
+
+.player-score,
+.computer-score {
+  font-size: 30px;
+}

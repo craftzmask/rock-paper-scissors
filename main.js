@@ -1,3 +1,33 @@
+/* Main Logic */
+let playerScores = 0;
+let computerScores = 0;
+let gameCount = 0;
+
+// Get every selection and update result every user selected
+const selections = document.querySelectorAll('.selection');
+selections.forEach(selection => selection.addEventListener('click', function(e) {
+    const playerSelection = selection.dataset.selected;
+    const computerSelection = getComputerChoice();
+    const result = playRound(playerSelection, computerSelection);
+
+    if (result === 1) {
+      playerScores++;
+    } else if (result === -1) {
+      computerScores++;
+    }
+
+    if (playerScores === 5 || computerScores === 5) {
+      displayWinner(playerScores, computerScores);
+    }
+
+    displayResult(result);
+    displayScores(playerScores, computerScores);
+    displaySelections(playerSelection, computerSelection);
+    displayGameCount(++gameCount);
+}));
+
+/* Helper functions */
+
 function getComputerChoice() {
   const randomNumber = Math.floor(Math.random() * 3);
   switch (randomNumber) {
@@ -32,39 +62,58 @@ function playRound(playerSelection, computerSelection) {
   return 1;
 }
 
-function game() {
-  let playerScores = 0;
-  let computerScores = 0;
+function capitalize(word) {
+  return word[0].toUpperCase() + word.slice(1);
+}
 
-  for (let i = 0; i < 5; i++) {
-    const playerSelection = prompt("Enter your choice: 'rock', 'paper', or 'scissors'");
-    const computerSelection = getComputerChoice();
-
-    const winner = playRound(playerSelection, computerSelection);
-
-    console.log(`Round ${i + 1}`);
-    console.log(`Player: ${playerSelection} <==> ${computerSelection} :Computer`)
+function displaySelections(playerSelection, computerSelection) {
+  const playerSelectionDisplay = document.querySelector('.player-selection');
+  const computerSelectionDisplay = document.querySelector('.computer-selection');
   
-    if (winner === 1) {
-      playerScores++;
-      console.log(`${playerSelection.toUpperCase()} beats ${computerSelection.toUpperCase()}`);
-    } else if (winner === -1) {
-      computerScores++;
-      console.log(`${computerSelection.toUpperCase()} beats ${playerSelection.toUpperCase()}`);
-    } else {
-      console.log('Its a draw');
-    }
+  playerSelectionDisplay.textContent = capitalize(playerSelection);
+  computerSelectionDisplay.textContent = capitalize(computerSelection);
+}
 
-    console.log("====================================================================");
-  }
+function displayScores(playerScores, computerScores) {
+  const playerScoreDisplay = document.querySelector('.player-score');
+  const computerScoreDisplay = document.querySelector('.computer-score');
+  
+  playerScoreDisplay.textContent = playerScores;
+  computerScoreDisplay.textContent = computerScores;
+}
 
-  if (playerScores > computerScores) {
-    console.log('Player is the winner!');
-  } else if (playerScores < computerScores) {
-    console.log('Computer is the winner!');
+function displayResult(result) {
+  const roundWinnerDisplay = document.querySelector('.round-winner');
+
+  if (result === 1) {
+    roundWinnerDisplay.textContent = 'You Win';
+    roundWinnerDisplay.style.color = 'green';
+  } else if (result === -1) {
+    roundWinnerDisplay.textContent = 'You Lose';
+    roundWinnerDisplay.style.color = 'red';
   } else {
-    console.log('Its a draw');
+    roundWinnerDisplay.textContent = 'Draw';
+    roundWinnerDisplay.style.color = '#0369a1';
   }
 }
 
-game();
+function displayGameCount(gameCount) {
+  const gameCountDisplay = document.querySelector('.game-count');
+  gameCountDisplay.textContent = `Game count: ${gameCount}`;
+}
+
+function displayWinner(playerScores, computerScores) {
+  const body = document.querySelector('body');
+  const container = document.querySelector('.container');
+  const winnerDeclare = document.querySelector('.winner-declare');
+  const declareText = document.querySelector('.declare-text');
+
+  body.removeChild(container);
+  winnerDeclare.style.display = "flex";
+
+  if (playerScores === 5) {
+    declareText.textContent = 'You Are the Winner';
+  } else {
+    declareText.textContent = 'Computer Are the Winner';
+  }
+}
